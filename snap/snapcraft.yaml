@@ -1,0 +1,42 @@
+name: liquidctl 
+base: core20 
+summary: a status and control utility to for power, cooling and LED components
+description: |
+     liquidctl is a command-line tool to monitor and control the fan speed,
+     LED colour and pump volumes of specific power supplies, motherboards, 
+     graphics cards and cooling solutions.  
+     OpenCorsairLink unofficial and is not endorsed or affiliated with Corsair.
+adopt-info: liquidctl
+grade: stable
+confinement: strict
+
+apps:
+  liquidctl:
+    command: bin/liquidctl
+    plugs:
+      - raw-usb
+      - uhid
+      - hardware-observe
+
+parts:
+  liquidctl:
+    plugin: python
+    source-type: git
+    source: https://github.com/liquidctl/liquidctl
+    override-pull: |
+      snapcraftctl pull
+      snapcraftctl set-version \
+      "$(git describe --long --tags --always --match=v*.*.* | sed 's/v//')"
+    stage-packages:
+       - python3-setuptools
+       - python3-docopt
+       - python3-colorlog
+       - python3-hidapi
+       - python3-usb
+       - python3-smbus
+       - libusb-1.0-0
+#    override-build: |
+#      make
+#      mkdir -p $SNAPCRAFT_PART_INSTALL/bin/
+#      mv OpenCorsairLink.elf opencorsairlink
+#      mv opencorsairlink $SNAPCRAFT_PART_INSTALL/bin/
