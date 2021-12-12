@@ -17,6 +17,7 @@ architectures:
 apps:
   liquidctl:
     command: bin/liquidctl
+    completer: liquidctl.bash
     plugs:
       - raw-usb
       - uhid
@@ -31,6 +32,9 @@ parts:
       snapcraftctl pull
       snapcraftctl set-version \
       "$(git describe --long --tags --always --match=v*.*.* | sed 's/v//')"
+    override-prime: |
+      snapcraftctl prime
+      cp $SNAPCRAFT_PART_SRC/extra/completions/liquidctl.bash $SNAPCRAFT_PRIME/
     stage-packages:
        - python3-setuptools
        - python3-docopt
