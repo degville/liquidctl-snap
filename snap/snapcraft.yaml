@@ -1,5 +1,5 @@
 name: liquidctl 
-base: core20 
+base: core22
 summary: a status and control utility to for power, cooling and LED components
 description: |
      liquidctl is a command-line tool to monitor and control the fan speed,
@@ -12,7 +12,6 @@ confinement: strict
 
 architectures:
   - build-on: [amd64]
-    run-on: [amd64]
 
 apps:
   liquidctl:
@@ -35,12 +34,11 @@ parts:
        - python3-setuptools
        - python3-docopt
        - python3-colorlog
-       - python3-hidapi
-       - python3-usb
        - python3-smbus
-       - libusb-1.0-0
-#    override-build: |
-#      make
-#      mkdir -p $SNAPCRAFT_PART_INSTALL/bin/
-#      mv OpenCorsairLink.elf opencorsairlink
-#      mv opencorsairlink $SNAPCRAFT_PART_INSTALL/bin/
+       - python3-usb
+    override-build: |
+      snapcraftctl build
+      python -m pip install .
+      sed -i '1c#!\/usr\/bin\/env python3' "$SNAPCRAFT_PART_INSTALL/bin/liquidctl"
+#      mkdir -p "$SNAPCRAFT_PART_INSTALL/bin/"
+#      cp "$SNAPCRAFT_PART_BUILD/install/bin/liquidctl" "$SNAPCRAFT_PART_INSTALL/bin/liquidctl"
