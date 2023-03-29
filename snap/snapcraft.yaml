@@ -40,5 +40,3 @@ parts:
       snapcraftctl build
       python -m pip install .
       sed -i '1c#!\/usr\/bin\/env python3' "$SNAPCRAFT_PART_INSTALL/bin/liquidctl"
-#      mkdir -p "$SNAPCRAFT_PART_INSTALL/bin/"
-#      cp "$SNAPCRAFT_PART_BUILD/install/bin/liquidctl" "$SNAPCRAFT_PART_INSTALL/bin/liquidctl"
