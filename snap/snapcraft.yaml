@@ -31,12 +31,4 @@ parts:
       snapcraftctl set-version \
       "$(git describe --long --tags --always --match=v*.*.* | sed 's/v//')"
     stage-packages:
-       - python3-setuptools
-       - python3-docopt
-       - python3-colorlog
-       - python3-smbus
        - python3-usb
-    override-build: |
-      snapcraftctl build
-      python -m pip install .
-      sed -i '1c#!\/usr\/bin\/env python3' "$SNAPCRAFT_PART_INSTALL/bin/liquidctl"
